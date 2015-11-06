@@ -6,7 +6,7 @@
 #buy more seeds - price fluctuates rand
 class Farmer
 
-  attr_accessor :seeds, :seedlings, :crops, :harvested_crops, :gold, :seed_price, :sale_price
+  attr_accessor :seeds, :seedlings, :crops, :harvested_crops, :gold, :seed_price, :sale_price, :cow
   
   def initialize
     @seeds = 5
@@ -17,16 +17,21 @@ class Farmer
     @seed_price = rand(5) + 1
     @sale_price = rand(10) + 1
     @harvested = false
+    @cow = 0
   end
   
   def pass_one_year
     @harvested = false
     @seed_price = rand(5) + 1
     @sale_price = rand(10) + 1
-    @crops += @seedlings
+    if @cow > 0
+      @crops += @seedlings * @cow
+    else
+      @crops += @seedlings
+    end
     @seedlings = 0
-    puts "One year has passed since you sowed your seeds. You have #{@crops} crops"
-    puts "seed price is #{@seed_price}, I am paying #{@sale_price} for crops this year"
+    puts "One year has passed since you sowed your seeds. You have #{@crops} crops and #{@cow} cows."
+    puts "seed price is #{@seed_price}, I am paying #{@sale_price} for crops this year."
   end
   
   def sow_seeds
@@ -39,7 +44,6 @@ class Farmer
   def harvest_crops
     if @harvested == false
     @harvested_crops += @crops
-    @crops = 0
     puts "You have harvested #{@harvested_crops} crops."
     @harvested = true
     else
@@ -63,6 +67,21 @@ class Farmer
     @seeds = @gold / @seed_price
     @gold = @gold - (@seeds * @seed_price )
     puts "You bought #{@seeds} seeds for #{@seed_price * @seeds} gold"
+    end
+  end
+  
+  def buy_cow
+    if @gold > 500
+      @gold -= 500
+      puts "You bought a cow"
+      puts "Cows multiply your production. Good work sonny."
+      if @cow == 0
+        @cow += 2
+      else
+        @cow = @cow + 1
+      end
+    else
+      puts "You need 500 gold to buy a cow, you have #{@gold}"
     end
   end
 end
@@ -90,6 +109,8 @@ print "What action do you take?"
     john.sell_crops
   when "buy seeds"
     john.buy_seeds
+  when "buy cow"
+    john.buy_cow
   else 
     puts "You can't do that on a farm."
   end
