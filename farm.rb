@@ -6,7 +6,7 @@
 #buy more seeds - price fluctuates rand
 class Farmer
 
-  attr_accessor :seeds, :seedlings, :crops, :harvested_crops, :gold
+  attr_accessor :seeds, :seedlings, :crops, :harvested_crops, :gold, :seed_price, :sale_price
   
   def initialize
     @seeds = 5
@@ -14,12 +14,19 @@ class Farmer
     @crops = 0
     @harvested_crops = 0
     @gold = 0
+    @seed_price = rand(5) + 1
+    @sale_price = rand(10) + 1
+    @harvested = false
   end
   
   def pass_one_year
+    @harvested = false
+    @seed_price = rand(5) + 1
+    @sale_price = rand(10) + 1
     @crops += @seedlings
     @seedlings = 0
     puts "One year has passed since you sowed your seeds. You have #{@crops} crops"
+    puts "seed price is #{@seed_price}, I am paying #{@sale_price} for crops this year"
   end
   
   def sow_seeds
@@ -30,23 +37,33 @@ class Farmer
   end
   
   def harvest_crops
+    if @harvested == false
     @harvested_crops += @crops
     @crops = 0
     puts "You have harvested #{@harvested_crops} crops."
+    @harvested = true
+    else
+      puts "You have harvested this years crops"
+    end
   end
   
   def sell_crops
-    sale_price = rand(10) + 1
-    @gold = sale_price * @harvested_crops
+    # sale_price = rand(10) + 1
+    @gold = @sale_price * @harvested_crops
     @harvested_crops = 0
     puts "You sell your crops and have #{@gold} gold."
   end
   
   def buy_seeds
-    seed_price = rand(10.0) + 1
-    @seeds = @gold / seed_price
-    @gold = @gold - (@seeds * seed_price )
-    puts "You bought #{@seeds} seeds for #{seed_price} gold"
+    # seed_price = rand(5) + 1
+    if @gold < @seed_price && @seeds == 0
+      puts "Hmm i feel sorry for you, Your not a very good farmer if you can't afford one seed."
+      puts "Here is #{@seeds += 1} seed"
+    else
+    @seeds = @gold / @seed_price
+    @gold = @gold - (@seeds * @seed_price )
+    puts "You bought #{@seeds} seeds for #{@seed_price * @seeds} gold"
+    end
   end
 end
 
