@@ -51,11 +51,32 @@ class Farmer
 end
 
 john = Farmer.new
-john.sow_seeds
-john.pass_one_year
-john.harvest_crops
-puts "Time to sell"
-john.sell_crops
-john.buy_seeds
+# john.sow_seeds
+# john.pass_one_year
+# john.harvest_crops
+# puts "Time to sell"
+# john.sell_crops
+# john.buy_seeds
+
+while true
+print "What action do you take?"
+  action = gets.chomp.downcase
+  
+  case action
+  when "sow seeds"
+    john.sow_seeds
+  when "pass year"
+    john.pass_one_year
+  when "harvest crops"
+    john.harvest_crops
+  when "sell crops"
+    john.sell_crops
+  when "buy seeds"
+    john.buy_seeds
+  else 
+    puts "You can't do that on a farm."
+  end
+  
+end
 
 
