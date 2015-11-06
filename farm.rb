@@ -18,7 +18,11 @@ class Farmer
   def pass_one_year
   end
   
-  def sow _seeds
+  def sow_seeds
+    puts "You sow your seeds..."
+    @seedlings += @seeds
+    @seeds = 0
+    puts "You have #{@seeds} seeds and #{@seedlings} seedlings"
   end
   
   def harvest_crops
@@ -29,5 +33,9 @@ class Farmer
   
   def buy_seeds
   end
-
 end
+
+john = Farmer.new
+puts john.seeds
+john.sow_seeds
+
